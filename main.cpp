@@ -1,65 +1,51 @@
 #include <iostream>
 #include "std_lib_facilities.h"
+#include "caesar_encrypting.h"
+#include "termcolor.hpp"
+#include "TSS.h"
 
 int main()
 {
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Caesar encrypting algorithm attempt  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    int choice = 0;
 
-    char message = ' ';
-    vector<char> msg_vector;
-    constexpr int VECTOR_INDEX_GAP = 1;
-    int pace = 0;
+    cout << "\n";
+    MainTitleSeparator(25, "Welcome to Cryptit 0.1 !", "cyan");
+    cout << "\n\n\n";
+
+    cout << "\t\t\t\t\t\t\t\t  ";
+    MinorTitle("Main Menu", "green");
+    cout << "\n\n";
 
 
+    cout << "\n\t" << termcolor::underline << "Select an encryption or decryption method:" << termcolor::reset << " \n";
 
-    /* Message is taken character by character and placed in a vector.
-     * cin.get() allows to include whitespaces in the inline stream */
+    cout << "\n\t1. Caesar Encryption\n";
+    cout << "\n\t2. Caesar Decryption\n\n";
 
-    std::cout << "Enter a message you want to crypt: ";
 
-    while(cin.get(message) && message != '~')
+    cout << "\n\t3. Vigenere Encryption\n";
+    cout << "\n\t4. Vigenere Decryption\n\n";
+
+    cout << "\n\tYour choice: ";
+
+    cin >> choice;
+
+
+    switch(choice)
     {
-        msg_vector.push_back(message);
+        case 1 :
+        {
+            cout << "\n\n";
+            string coded_msg = caesar_encrypt();
+            cout << termcolor::yellow << coded_msg << termcolor::reset;
+            cout << "\n\n";
+            break;
+        }
+
+
+        default:
+            break;
     }
 
-
-
-    /* Pace is the gap between the first letter in the alphabet and the letter 'a'
-     * in the caesar alphabet sequence */
-
-    std::cout << "Enter a pace (range 0 to 26): ";
-    std::cin >> pace;
-
-
-
-    /* Translate every char in the message vector according to the pace chosen by the user */
-
-    for (unsigned short int i = 0; i < msg_vector.size(); i++)
-    {
-        if (msg_vector.at(i) >= 'a' && msg_vector.at(i) <= 'z' && msg_vector[i] + pace < 'z')
-            msg_vector.at(i) = narrow_cast<char>(msg_vector[i] + pace);
-
-        else if (msg_vector.at(i) >= 'a' && msg_vector.at(i) <= 'z' && msg_vector[i] + pace > 'z')
-            msg_vector.at(i) = narrow_cast<char>((msg_vector[i] + pace)%'z' + 'a' - VECTOR_INDEX_GAP);
-
-        else if (msg_vector.at(i) >= 'A' && msg_vector.at(i) <= 'Z' && msg_vector[i] + pace < 'Z')
-            msg_vector.at(i) = narrow_cast<char>(msg_vector[i] + pace);
-
-        else if (msg_vector.at(i) >= 'A' && msg_vector.at(i) <= 'Z' && msg_vector[i] + pace > 'Z')
-            msg_vector.at(i) = narrow_cast<char>((msg_vector[i] + pace)%'Z' + 'A' - VECTOR_INDEX_GAP);
-
-        else
-            msg_vector.at(i) = msg_vector[i];
-    }
-
-
-    /* Prints encrypted message */
-
-    for (char x: msg_vector)
-        std::cout << x;
-
-
-    return 0;
-
-    /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    MainSeparator(75);
 }
